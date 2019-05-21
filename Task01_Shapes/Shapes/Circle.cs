@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Task01_Shapes
+namespace Task01_Shapes.Shapes
 {
     class Circle : IShape
     {
@@ -33,15 +33,23 @@ namespace Task01_Shapes
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(obj, this)) return true;
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType()) return false;
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
             Circle circle = (Circle)obj;
+
             return radius == circle.radius;
         }
 
         public override int GetHashCode()
         {
-            return 3571 + radius.GetHashCode();
+            return radius.GetHashCode();
         }
 
         public override string ToString()

@@ -1,4 +1,4 @@
-﻿namespace Task01_Shapes
+﻿namespace Task01_Shapes.Shapes
 {
     class Rectangle : IShape
     {
@@ -33,9 +33,17 @@
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(obj, this)) return true;
-            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType()) return false;
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if (ReferenceEquals(obj, null) || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
             Rectangle rectangle = (Rectangle)obj;
+
             return width == rectangle.width &&
                    height == rectangle.height;
         }
@@ -44,8 +52,10 @@
         {
             var prime = 3571;
             var hashCode = 1;
+
             hashCode = hashCode * prime + width.GetHashCode();
             hashCode = hashCode * prime + height.GetHashCode();
+
             return hashCode;
         }
 

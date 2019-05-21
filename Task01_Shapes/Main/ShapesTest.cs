@@ -1,4 +1,6 @@
 ﻿using System;
+using Task01_Shapes.Comparators;
+using Task01_Shapes.Shapes;
 
 namespace Task01_Shapes
 {
@@ -67,6 +69,8 @@ namespace Task01_Shapes
             Console.WriteLine("Width     = {0}", shapes[shapes.Length - 2].GetWidth());
             Console.WriteLine();
 
+            Console.WriteLine();
+            Console.WriteLine("Exit?");
             Console.ReadLine();
         }
     }
