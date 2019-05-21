@@ -84,6 +84,20 @@ namespace Task03_ArrayListHome
             PrintList(listOfUniqueNumbers);
             Console.WriteLine();
 
+            var listOfUniqueNumbers2 = new ArrayList();
+
+            for (var i = listOfRandomNumbers.Count - 1; i >= 0; --i)
+            {
+                if (!listOfUniqueNumbers2.Contains(listOfRandomNumbers[i]))
+                {
+                    listOfUniqueNumbers2.Add(listOfRandomNumbers[i]);
+                }
+            }
+
+            Console.Write("listOfUniqueNumbers2: ");
+            PrintList(listOfUniqueNumbers2);
+            Console.WriteLine();
+
             Console.WriteLine();
             Console.WriteLine("Exit?");
             Console.ReadLine();
