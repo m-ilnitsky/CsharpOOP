@@ -11,7 +11,7 @@ namespace Task02_Vector
         {
             if (length <= 0)
             {
-                throw new ArgumentException("Size must be > 0 (Size=" + length + ").");
+                throw new ArgumentException("Size must be > 0 (Size=" + length + ").", nameof(length));
             }
 
             elements = new double[length];
@@ -28,7 +28,7 @@ namespace Task02_Vector
         {
             if (values.Length <= 0)
             {
-                throw new ArgumentException("Size must be > 0 (Size=" + values.Length + ").");
+                throw new ArgumentException("Size must be > 0 (Size=" + values.Length + ").", nameof(values.Length));
             }
 
             elements = new double[values.Length];
@@ -40,12 +40,12 @@ namespace Task02_Vector
         {
             if (length <= 0)
             {
-                throw new ArgumentException("Size must be > 0 (Size=" + length + ").");
+                throw new ArgumentException("Size must be > 0 (Size=" + length + ").", nameof(length));
             }
 
             elements = new double[length];
 
-            int copyLength = Math.Min(length, values.Length);
+            var copyLength = Math.Min(length, values.Length);
 
             Array.Copy(values, elements, copyLength);
         }
@@ -57,11 +57,11 @@ namespace Task02_Vector
 
         public double GetLength()
         {
-            double result = 0;
+            var result = 0d;
 
-            for (int i = 0; i < elements.Length; ++i)
+            foreach (var element in elements)
             {
-                result += elements[i] * elements[i];
+                result += element * element;
             }
 
             return Math.Sqrt(result);
@@ -71,15 +71,15 @@ namespace Task02_Vector
         {
             if (index < 0)
             {
-                throw new ArgumentException("Index < 0  (Index = " + index + ").");
+                throw new ArgumentException("Index < 0  (Index = " + index + ").", nameof(index));
             }
             if (index == elements.Length)
             {
-                throw new ArgumentException("Index == Length  (Index = " + index + ").");
+                throw new ArgumentException("Index == Length  (Index = " + index + ").", nameof(index));
             }
-            if (index == elements.Length)
+            if (index > elements.Length)
             {
-                throw new ArgumentException("Index > Length  (Index = " + index + ", Length = " + elements.Length + ").");
+                throw new ArgumentException("Index > Length  (Index = " + index + ", Length = " + elements.Length + ").", nameof(index));
             }
         }
 
@@ -97,15 +97,11 @@ namespace Task02_Vector
             elements[index] = value;
         }
 
-        protected void ResizeToVector(Vector vector)
+        private void ResizeToVector(Vector vector)
         {
             if (vector.elements.Length > elements.Length)
             {
-                double[] newElements = new double[vector.elements.Length];
-
-                Array.Copy(elements, newElements, elements.Length);
-
-                elements = newElements;
+                Array.Resize(ref elements, vector.elements.Length);
             }
         }
 
@@ -113,7 +109,7 @@ namespace Task02_Vector
         {
             ResizeToVector(vector);
 
-            for (int i = 0; i < vector.elements.Length; ++i)
+            for (var i = 0; i < vector.elements.Length; ++i)
             {
                 elements[i] += vector.elements[i];
             }
@@ -123,7 +119,7 @@ namespace Task02_Vector
         {
             ResizeToVector(vector);
 
-            for (int i = 0; i < vector.elements.Length; ++i)
+            for (var i = 0; i < vector.elements.Length; ++i)
             {
                 elements[i] -= vector.elements[i];
             }
@@ -131,7 +127,7 @@ namespace Task02_Vector
 
         public void Multiply(double scalar)
         {
-            for (int i = 0; i < elements.Length; ++i)
+            for (var i = 0; i < elements.Length; ++i)
             {
                 elements[i] *= scalar;
             }
@@ -144,9 +140,7 @@ namespace Task02_Vector
 
         public static Vector Summarize(Vector vector1, Vector vector2)
         {
-            Vector result = new Vector(Math.Max(vector1.elements.Length, vector2.elements.Length));
-
-            Array.Copy(vector1.elements, result.elements, vector1.elements.Length);
+            var result = new Vector(Math.Max(vector1.elements.Length, vector2.elements.Length), vector1.elements);
 
             result.Add(vector2);
 
@@ -155,9 +149,7 @@ namespace Task02_Vector
 
         public static Vector Subtract(Vector vector1, Vector vector2)
         {
-            Vector result = new Vector(Math.Max(vector1.elements.Length, vector2.elements.Length));
-
-            Array.Copy(vector1.elements, result.elements, vector1.elements.Length);
+            var result = new Vector(Math.Max(vector1.elements.Length, vector2.elements.Length), vector1.elements);
 
             result.Subtract(vector2);
 
@@ -166,11 +158,11 @@ namespace Task02_Vector
 
         public static double ScalarProduct(Vector vector1, Vector vector2)
         {
-            double result = 0;
+            var result = 0d;
 
-            int minLength = Math.Min(vector1.elements.Length, vector2.elements.Length);
+            var minLength = Math.Min(vector1.elements.Length, vector2.elements.Length);
 
-            for (int i = 0; i < minLength; ++i)
+            for (var i = 0; i < minLength; ++i)
             {
                 result += vector1.elements[i] * vector2.elements[i];
             }
@@ -189,14 +181,14 @@ namespace Task02_Vector
                 return false;
             }
 
-            Vector vector = (Vector)obj;
+            var vector = (Vector)obj;
 
             if (vector.elements.Length != this.elements.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < elements.Length; ++i)
+            for (var i = 0; i < elements.Length; ++i)
             {
                 if (elements[i] != vector.elements[i])
                 {
@@ -224,21 +216,15 @@ namespace Task02_Vector
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            for (int i = 0; i < elements.Length; ++i)
+            sb.Append("[");
+            foreach (var element in elements)
             {
-                if (i == 0)
-                {
-                    sb.Append("[ ");
-                }
-                else
-                {
-                    sb.Append(", ");
-                }
-
-                sb.Append(elements[i]);
+                sb.Append(element);
+                sb.Append(", ");
             }
+            sb.Remove(sb.Length - 2, 2);
             sb.Append("]");
 
             return sb.ToString();
