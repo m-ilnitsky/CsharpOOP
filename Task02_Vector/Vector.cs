@@ -71,15 +71,11 @@ namespace Task02_Vector
         {
             if (index < 0)
             {
-                throw new ArgumentException("Index < 0  (Index = " + index + ").", nameof(index));
+                throw new IndexOutOfRangeException("Index < 0  (Index = " + index + ").");
             }
-            if (index == elements.Length)
+            if (index >= elements.Length)
             {
-                throw new ArgumentException("Index == Length  (Index = " + index + ").", nameof(index));
-            }
-            if (index > elements.Length)
-            {
-                throw new ArgumentException("Index > Length  (Index = " + index + ", Length = " + elements.Length + ").", nameof(index));
+                throw new IndexOutOfRangeException("Index >= Length  (Index = " + index + ", Length = " + elements.Length + ").");
             }
         }
 
