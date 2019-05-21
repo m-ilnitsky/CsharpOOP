@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Task03_ArrayListHome
 {
     class ArrayListHome
     {
-        static void PrintList(ArrayList arrayList)
+        static void PrintList(List<int> list)
         {
-            foreach (var element in arrayList)
+            foreach (var element in list)
             {
                 Console.Write(element + ", ");
             }
@@ -19,15 +20,24 @@ namespace Task03_ArrayListHome
             Console.WriteLine("### 1: Прочитать в список строки из файла");
             Console.WriteLine();
 
-            var listOfStrings = new ArrayList();
+            var listOfStrings = new List<string>();
 
             string fileName = "..\\..\\input.txt";
-            using (StreamReader reader = new StreamReader(fileName))
+
+            try
             {
-                while (!reader.EndOfStream)
+                using (StreamReader reader = new StreamReader(fileName))
                 {
-                    listOfStrings.Add(reader.ReadLine());
+                    while (!reader.EndOfStream)
+                    {
+                        listOfStrings.Add(reader.ReadLine());
+                    }
                 }
+            }
+            catch (IOException exeption)
+            {
+                Console.WriteLine();
+                Console.WriteLine(exeption);
             }
 
             Console.WriteLine("listOfStrings from file '" + fileName + "':");
@@ -42,13 +52,13 @@ namespace Task03_ArrayListHome
             Console.WriteLine("### 2: Удалить все чётные числа");
             Console.WriteLine();
 
-            var listOfIntNumbers = new ArrayList() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            var listOfIntNumbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
             Console.Write("listOfIntNumbers: ");
             PrintList(listOfIntNumbers);
             Console.WriteLine();
 
-            for (int i = listOfIntNumbers.Count - 1; i >= 0; --i)
+            for (var i = listOfIntNumbers.Count - 1; i >= 0; --i)
             {
                 if ((int)listOfIntNumbers[i] % 2 == 0)
                 {
@@ -64,13 +74,13 @@ namespace Task03_ArrayListHome
             Console.WriteLine("### 3: Создать новый список без повторяющихся чисел");
             Console.WriteLine();
 
-            var listOfRandomNumbers = new ArrayList() { 1, 2, 3, 1, 2, 3, 4, 5, 6, 5, 6, 7, 8, 6, 7, 8, 9, 10, 8, 6, 4, 2, 1 };
+            var listOfRandomNumbers = new List<int>() { 1, 2, 3, 1, 2, 3, 4, 5, 6, 5, 6, 7, 8, 6, 7, 8, 9, 10, 8, 6, 4, 2, 1 };
 
             Console.Write("listOfRandomNumbers: ");
             PrintList(listOfRandomNumbers);
             Console.WriteLine();
 
-            var listOfUniqueNumbers = new ArrayList();
+            var listOfUniqueNumbers = new List<int>();
 
             foreach (var number in listOfRandomNumbers)
             {
@@ -84,7 +94,7 @@ namespace Task03_ArrayListHome
             PrintList(listOfUniqueNumbers);
             Console.WriteLine();
 
-            var listOfUniqueNumbers2 = new ArrayList();
+            var listOfUniqueNumbers2 = new List<int>();
 
             for (var i = listOfRandomNumbers.Count - 1; i >= 0; --i)
             {
