@@ -40,8 +40,7 @@ namespace Task01_Shapes.Shapes
 
             Point point = (Point)obj;
 
-            return X == point.X &&
-                   Y == point.Y;
+            return X == point.X && Y == point.Y;
         }
 
         public override int GetHashCode()
