@@ -6,7 +6,7 @@ namespace Task04_Lambda
 {
     class LambdaTest
     {
-        static void PrintList(List<String> list)
+        private static void PrintList(List<String> list)
         {
             foreach (var name in list)
             {
@@ -14,7 +14,7 @@ namespace Task04_Lambda
             }
         }
 
-        static void PrintList(List<Person> list)
+        private static void PrintList(List<Person> list)
         {
             foreach (var person in list)
             {
@@ -94,6 +94,35 @@ namespace Task04_Lambda
             PrintList(from20to45Persons);
 
             Console.WriteLine("\n<<<< 2 >>>>\n");
+
+            Console.Write("Введите максимальное целое число N ряда целых чисел: ");
+            var maxNumber = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\n<<<< 2.1 >>>>\n");
+
+            Console.WriteLine("Вычислим корни ряда целых чисел от 1 до {0}", maxNumber);
+
+            var sqrtOfIntNumbers = new SqrtOfIntNumbers();
+            var sqrt = sqrtOfIntNumbers.GetEnumerator();
+
+            for (var i = 1; i <= maxNumber; ++i)
+            {
+                sqrt.MoveNext();
+                Console.WriteLine("sqrt({0}) = {1}", i, sqrt.Current);
+            }
+
+            Console.WriteLine("\n<<<< 2.2 >>>>\n");
+
+            Console.WriteLine("Вычислим числа Фибоначчи от F(0) до F({0})", maxNumber);
+
+            var fibonacciNumbers = new FibonacciNumbers();
+            var fibonacci = fibonacciNumbers.GetEnumerator();
+
+            for (var i = 0; i <= maxNumber; ++i)
+            {
+                fibonacci.MoveNext();
+                Console.WriteLine("F({0}) = {1}", i, fibonacci.Current);
+            }
 
             Console.WriteLine();
             Console.WriteLine("Exit?");
