@@ -33,10 +33,10 @@ namespace Task03_ArrayListHome
                     }
                 }
             }
-            catch (IOException exeption)
+            catch (IOException exception)
             {
                 Console.WriteLine();
-                Console.WriteLine(exeption);
+                Console.WriteLine(exception);
             }
 
             Console.WriteLine("listOfStrings from file '" + fileName + "':");
@@ -59,7 +59,7 @@ namespace Task03_ArrayListHome
 
             for (var i = listOfIntNumbers.Count - 1; i >= 0; --i)
             {
-                if ((int)listOfIntNumbers[i] % 2 == 0)
+                if (listOfIntNumbers[i] % 2 == 0)
                 {
                     listOfIntNumbers.RemoveAt(i);
                 }
