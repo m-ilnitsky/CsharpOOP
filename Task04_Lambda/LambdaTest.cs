@@ -6,7 +6,7 @@ namespace Task04_Lambda
 {
     class LambdaTest
     {
-        private static void PrintList(List<String> list)
+        private static void PrintList(List<string> list)
         {
             foreach (var name in list)
             {
@@ -24,9 +24,12 @@ namespace Task04_Lambda
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\n<<<< 1 >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1 >>>>");
+            Console.WriteLine();
 
-            var list = new List<Person>  {
+            var personsList = new List<Person>
+            {
                 new Person("Вася", 19),
                 new Person("Петя", 16),
                 new Person("Юля", 17),
@@ -44,40 +47,73 @@ namespace Task04_Lambda
             };
 
             Console.WriteLine("list:");
-            PrintList(list);
+            PrintList(personsList);
             Console.WriteLine();
 
-            Console.WriteLine("\n<<<< 1.А >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.А-v1 >>>>");
+            Console.WriteLine("<< Получить список уникальных имён >>");
+            Console.WriteLine();
 
             var nameComparer = new PersonNameComparer();
-            var uniqueNamesList = list.Distinct(nameComparer)
-                                     .Select(x => x.Name)
-                                     .ToList();
+            var uniqueNamesList = personsList.Distinct(nameComparer)
+                                        .Select(x => x.Name)
+                                        .ToList();
 
             Console.WriteLine("uniqueNamesList:");
             PrintList(uniqueNamesList);
             Console.WriteLine();
 
-            Console.WriteLine("\n<<<< 1.Б >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.А-v2 >>>>");
+            Console.WriteLine("<< Получить список уникальных имён >>");
+            Console.WriteLine();
+
+            var uniqueNamesList2 = personsList.Select(x => x.Name)
+                                        .Distinct()
+                                        .ToList();
+
+            Console.WriteLine("uniqueNamesList2:");
+            PrintList(uniqueNamesList2);
+            Console.WriteLine();
+
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.Б >>>>");
+            Console.WriteLine("<< Вывести список уникальных имён в заданном формате >>");
+            Console.WriteLine();
 
             var uniqueNamesString = "Имена: " + string.Join(", ", uniqueNamesList);
 
             Console.WriteLine(uniqueNamesString);
             Console.WriteLine();
 
-            Console.WriteLine("\n<<<< 1.В >>>>\n");
-
-            var youngPersonsList = list.Where(p => p.Age < 18)
-                                       .ToList();
-            var averageAgeOfYoungPersons = youngPersonsList.Average(p => p.Age);
-
-            PrintList(youngPersonsList);
-            Console.WriteLine("Average Age: {0}", averageAgeOfYoungPersons);
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.В >>>>");
+            Console.WriteLine("<< Получить список людей младше 18 лет, посчитать их средний возраст >>");
             Console.WriteLine();
 
-            Console.WriteLine("\n<<<< 1.Г >>>>\n");
+            var youngPersonsList = personsList.Where(p => p.Age < 18)
+                                       .ToList();
+            PrintList(youngPersonsList);
 
-            var groupByName = list.GroupBy(p => p.Name)
+            if (youngPersonsList.Count > 0)
+            {
+                var averageAgeOfYoungPersons = youngPersonsList.Average(p => p.Age);
+
+                Console.WriteLine("Average Age: {0}", averageAgeOfYoungPersons);
+            }
+            else
+            {
+                Console.WriteLine("Нет ни одного человека младше 18 лет");
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.Г >>>>");
+            Console.WriteLine("<< Получить словарь в котором ключи имена, а значения - средний возраст >>");
+            Console.WriteLine();
+
+            var groupByName = personsList.GroupBy(p => p.Name)
                                     .ToDictionary(g => g.Key, g => g.Average(p => p.Age));
 
             foreach (var key in groupByName.Keys)
@@ -85,20 +121,28 @@ namespace Task04_Lambda
                 Console.WriteLine("Name: {0,-4}    Average age: {1,2}", key, groupByName[key]);
             }
 
-            Console.WriteLine("\n<<<< 1.Д >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 1.Д >>>>");
+            Console.WriteLine("<< Получить список людей в возрасте от 20 до 45 лет, вывести в консоль имена в порядке убывания возраста >>");
+            Console.WriteLine();
 
-            var from20to45Persons = list.Where(p => p.Age >= 20 && p.Age <= 45)
+            var from20To45AgePersons = personsList.Where(p => p.Age >= 20 && p.Age <= 45)
                                         .OrderByDescending(p => p.Age)
                                         .ToList();
 
-            PrintList(from20to45Persons);
+            PrintList(from20To45AgePersons);
 
-            Console.WriteLine("\n<<<< 2 >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 2 >>>>");
+            Console.WriteLine();
 
             Console.Write("Введите максимальное целое число N ряда целых чисел: ");
             var maxNumber = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("\n<<<< 2.1 >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 2.1 >>>>");
+            Console.WriteLine("<< Сделать бесконечный поток корней чисел >>");
+            Console.WriteLine();
 
             Console.WriteLine("Вычислим корни ряда целых чисел от 1 до {0}", maxNumber);
 
@@ -111,7 +155,10 @@ namespace Task04_Lambda
                 Console.WriteLine("sqrt({0}) = {1}", i, sqrt.Current);
             }
 
-            Console.WriteLine("\n<<<< 2.2 >>>>\n");
+            Console.WriteLine();
+            Console.WriteLine("<<<< 2.2-v1 >>>>");
+            Console.WriteLine("<< Сделать бесконечный поток чисел Фибоначчи >>");
+            Console.WriteLine();
 
             Console.WriteLine("Вычислим числа Фибоначчи от F(0) до F({0})", maxNumber);
 
@@ -122,6 +169,22 @@ namespace Task04_Lambda
             {
                 fibonacci.MoveNext();
                 Console.WriteLine("F({0}) = {1}", i, fibonacci.Current);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("<<<< 2.2-v2 >>>>");
+            Console.WriteLine("<< Сделать бесконечный поток чисел Фибоначчи >>");
+            Console.WriteLine();
+
+            Console.WriteLine("Вычислим числа Фибоначчи от F(0) до F({0})", maxNumber);
+
+            var fibonacci2 = fibonacciNumbers.Take(maxNumber + 1);
+
+            var count = 0;
+            foreach (var fib in fibonacci2)
+            {
+                Console.WriteLine("F({0}) = {1}", count, fib);
+                ++count;
             }
 
             Console.WriteLine();
