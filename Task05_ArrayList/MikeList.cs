@@ -9,6 +9,7 @@ namespace Task05_ArrayList
     {
         private T[] elements;
         private int count;
+        private int version = 0;
         private const int defaultSize = 1024;
 
         public MikeList(int capacity)
@@ -84,6 +85,7 @@ namespace Task05_ArrayList
             {
                 TestIndex(index);
                 elements[index] = value;
+                version++;
             }
         }
 
@@ -116,6 +118,7 @@ namespace Task05_ArrayList
 
             elements[count] = item;
             count++;
+            version++;
         }
 
         public void Clear()
@@ -126,6 +129,7 @@ namespace Task05_ArrayList
             }
 
             count = 0;
+            version++;
         }
 
         public bool Contains(T item)
@@ -168,13 +172,19 @@ namespace Task05_ArrayList
 
         public IEnumerator<T> GetEnumerator()
         {
-            var i = 0;
+            var initVersion = version;
+            var initCount = count;
+            var i = -1;
 
-            while (i < count)
+            while (i < initCount)
             {
-                yield return elements[i];
+                if (initVersion != version)
+                {
+                    throw new InvalidOperationException("initVersion != version  (initVersion = " + initVersion + ", version = " + version + ").");
+                }
 
                 ++i;
+                yield return elements[i];
             }
         }
 
@@ -211,9 +221,11 @@ namespace Task05_ArrayList
             }
 
             Array.Copy(elements, index, elements, index + 1, count - index);
-            count++;
 
             elements[index] = item;
+
+            count++;
+            version++;
         }
 
         public bool Remove(T item)
@@ -227,6 +239,7 @@ namespace Task05_ArrayList
 
             Array.Copy(elements, index + 1, elements, index, count - 1 - index);
             count--;
+            version++;
 
             return true;
         }
@@ -237,6 +250,7 @@ namespace Task05_ArrayList
 
             Array.Copy(elements, index + 1, elements, index, count - 1 - index);
             count--;
+            version++;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -55,6 +55,37 @@ namespace Task05_ArrayList
             Console.WriteLine("stringList.Count     = {0}", stringList.Count);
             Console.WriteLine("stringList.Capacity  = {0}", stringList.Capacity);
 
+            var listIterator = stringList.GetEnumerator();
+
+            Console.WriteLine();
+
+            try
+            {
+                listIterator.MoveNext();
+                Console.WriteLine("1 list.element = {0}", listIterator.Current);
+                listIterator.MoveNext();
+                Console.WriteLine("2 list.element = {0}", listIterator.Current);
+                listIterator.MoveNext();
+                Console.WriteLine("3 list.element = {0}", listIterator.Current);
+
+                //stringList.Clear();
+                //stringList.Add("new");
+                //stringList.Remove("4");
+                //stringList.Remove("1234567");
+                //stringList.RemoveAt(2);
+                //stringList[0]="qwerty";
+                stringList.Insert(1, "insert");
+
+                listIterator.MoveNext();
+                Console.WriteLine("4 list.element = {0}", listIterator.Current);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine();
+                Console.WriteLine("EXCEPTION:");
+                Console.WriteLine(e.ToString());
+            }
+
             Console.WriteLine();
             Console.WriteLine("Exit?");
             Console.ReadLine();
