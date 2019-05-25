@@ -41,6 +41,12 @@ namespace Task05_ArrayList
             stringList.RemoveAt(5);
             Console.WriteLine("stringList  = {0}", stringList);
 
+            stringList.Add(null);
+            Console.WriteLine("stringList  = {0}", stringList);
+
+            stringList.Add("add");
+            Console.WriteLine("stringList  = {0}", stringList);
+
             Console.WriteLine();
             Console.WriteLine("stringList.Count     = {0}", stringList.Count);
             Console.WriteLine("stringList.Capacity  = {0}", stringList.Capacity);
