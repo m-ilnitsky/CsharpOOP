@@ -7,9 +7,9 @@ namespace Task05_ArrayList
 {
     class MikeList<T> : IList<T>
     {
-        private T[] elements;
-        private int version = 0;
-        private const int defaultSize = 1024;
+        private T[] _elements;
+        private int _version = 0;
+        private const int DefaultSize = 1024;
 
         public MikeList(int capacity)
         {
@@ -18,46 +18,24 @@ namespace Task05_ArrayList
                 throw new ArgumentException("capacity < 1  (capacity = " + capacity + ").");
             }
 
-            elements = new T[capacity];
+            _elements = new T[capacity];
             Count = 0;
         }
 
-        public MikeList() : this(defaultSize) { }
+        public MikeList() : this(DefaultSize) { }
 
-        public MikeList(IList<T> list)
+        public MikeList(ICollection<T> collection)
         {
-            if (list == null)
+            if (collection == null)
             {
                 throw new ArgumentNullException("list == null");
             }
-            if (list.Count < 1)
-            {
-                throw new ArgumentException("list.Count < 1  (list.Count = " + list.Count + ").");
-            }
 
-            elements = new T[list.Count];
+            _elements = new T[collection.Count];
 
-            list.CopyTo(elements, 0);
+            collection.CopyTo(_elements, 0);
 
-            Count = list.Count;
-        }
-
-        public MikeList(T[] array)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array == null");
-            }
-            if (array.Length < 1)
-            {
-                throw new ArgumentException("array.Length < 1  (array.Length = " + array.Length + ").");
-            }
-
-            elements = new T[array.Length];
-
-            Array.Copy(array, elements, elements.Length);
-
-            Count = elements.Length;
+            Count = collection.Count;
         }
 
         private void TestIndex(int index)
@@ -77,27 +55,27 @@ namespace Task05_ArrayList
             get
             {
                 TestIndex(index);
-                return elements[index];
+                return _elements[index];
             }
             set
             {
                 TestIndex(index);
-                elements[index] = value;
-                version++;
+                _elements[index] = value;
+                _version++;
             }
         }
 
         public int Count
         {
             get;
-            protected set;
+            private set;
         }
 
         public int Capacity
         {
             get
             {
-                return elements.Length;
+                return _elements.Length;
             }
             set
             {
@@ -110,21 +88,24 @@ namespace Task05_ArrayList
                     throw new ArgumentException("value < 1  (value = " + value + ").");
                 }
 
-                Array.Resize(ref elements, value);
+                if (_elements.Length != value)
+                {
+                    Array.Resize(ref _elements, value);
+                }
             }
         }
 
         public void TrimToSize()
         {
-            if (Count < elements.Length)
+            if (Count < _elements.Length)
             {
                 if (Count > 0)
                 {
-                    Array.Resize(ref elements, Count);
+                    Array.Resize(ref _elements, Count);
                 }
                 else
                 {
-                    Array.Resize(ref elements, 1);
+                    Array.Resize(ref _elements, 1);
                 }
             }
 
@@ -137,25 +118,25 @@ namespace Task05_ArrayList
 
         public void Add(T item)
         {
-            if (Count >= elements.Length - 1)
+            if (Count >= _elements.Length - 1)
             {
-                Array.Resize(ref elements, elements.Length * 2);
+                Array.Resize(ref _elements, _elements.Length * 2);
             }
 
-            elements[Count] = item;
+            _elements[Count] = item;
             Count++;
-            version++;
+            _version++;
         }
 
         public void Clear()
         {
             for (var i = 0; i < Count; ++i)
             {
-                elements[i] = default(T);
+                _elements[i] = default(T);
             }
 
             Count = 0;
-            version++;
+            _version++;
         }
 
         public bool Contains(T item)
@@ -182,45 +163,32 @@ namespace Task05_ArrayList
                 throw new IndexOutOfRangeException("Count > (array.Length - arrayIndex)  (Count = " + Count + ", array.Length = " + array.Length + ", arrayIndex = " + arrayIndex + ").");
             }
 
-            Array.Copy(elements, 0, array, arrayIndex, Count);
+            Array.Copy(_elements, 0, array, arrayIndex, Count);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var initVersion = version;
+            var initVersion = _version;
             var initCount = Count;
 
             for (var i = 0; i < initCount; ++i)
             {
-                if (initVersion != version)
+                if (initVersion != _version)
                 {
-                    throw new InvalidOperationException("initVersion != version  (initVersion = " + initVersion + ", version = " + version + ").");
+                    throw new InvalidOperationException("initVersion != version  (initVersion = " + initVersion + ", version = " + _version + ").");
                 }
 
-                yield return elements[i];
+                yield return _elements[i];
             }
         }
 
         public int IndexOf(T item)
         {
-            if (item == null)
+            for (var i = 0; i < Count; ++i)
             {
-                for (var i = 0; i < Count; ++i)
+                if (object.Equals(item, _elements[i]))
                 {
-                    if (elements[i] == null)
-                    {
-                        return i;
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < Count; ++i)
-                {
-                    if (item.Equals(elements[i]))
-                    {
-                        return i;
-                    }
+                    return i;
                 }
             }
 
@@ -238,20 +206,20 @@ namespace Task05_ArrayList
                 throw new IndexOutOfRangeException("index > count  (index = " + index + ", count = " + Count + ").");
             }
 
-            if (Count >= elements.Length - 1)
+            if (Count >= _elements.Length - 1)
             {
-                Array.Resize(ref elements, elements.Length * 2);
+                Array.Resize(ref _elements, _elements.Length * 2);
             }
 
             if (index < Count)
             {
-                Array.Copy(elements, index, elements, index + 1, Count - index);
+                Array.Copy(_elements, index, _elements, index + 1, Count - index);
             }
 
-            elements[index] = item;
+            _elements[index] = item;
 
             Count++;
-            version++;
+            _version++;
         }
 
         public bool Remove(T item)
@@ -263,9 +231,9 @@ namespace Task05_ArrayList
                 return false;
             }
 
-            Array.Copy(elements, index + 1, elements, index, Count - 1 - index);
+            Array.Copy(_elements, index + 1, _elements, index, Count - 1 - index);
             Count--;
-            version++;
+            _version++;
 
             return true;
         }
@@ -274,9 +242,9 @@ namespace Task05_ArrayList
         {
             TestIndex(index);
 
-            Array.Copy(elements, index + 1, elements, index, Count - 1 - index);
+            Array.Copy(_elements, index + 1, _elements, index, Count - 1 - index);
             Count--;
-            version++;
+            _version++;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -291,13 +259,13 @@ namespace Task05_ArrayList
             sb.Append("[");
             for (var i = 0; i < Count; i++)
             {
-                if (elements[i] == null)
+                if (_elements[i] == null)
                 {
                     sb.Append("null, ");
                 }
                 else
                 {
-                    sb.Append(elements[i].ToString());
+                    sb.Append(_elements[i].ToString());
                     sb.Append(", ");
                 }
             }
