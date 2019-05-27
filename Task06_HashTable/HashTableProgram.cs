@@ -51,6 +51,21 @@ namespace Task06_HashTable
             Console.WriteLine("stringTable.Count = {0}", stringTable.Count);
             Console.WriteLine("stringTable  = {0}", stringTable);
 
+            stringTable.Remove(null);
+            Console.WriteLine("stringTable.Count = {0}", stringTable.Count);
+            Console.WriteLine("stringTable  = {0}", stringTable);
+
+            var array = new string[stringTable.Count];
+            stringTable.CopyTo(array, 0);
+
+            Console.WriteLine();
+            Console.Write("array        =  ");
+            foreach (var element in array)
+            {
+                Console.Write(element + ", ");
+            }
+            Console.WriteLine();
+
             Console.WriteLine();
 
             var listIterator = stringTable.GetEnumerator();

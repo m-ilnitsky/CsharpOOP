@@ -45,6 +45,8 @@ namespace Task06_HashTable
                 _hashArray = new LinkedList<T>[DefaultHashArraySize];
             }
 
+            _version = 0;
+
             foreach (var element in collection)
             {
                 Add(element);
@@ -57,26 +59,21 @@ namespace Task06_HashTable
             private set;
         }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
-        private int getIndex(T item)
+        private int GetIndex(T item)
         {
             if (item == null)
             {
                 return 0;
             }
-            else
-            {
-                return Math.Abs(item.GetHashCode()) % _hashArray.Length;
-            }
+
+            return Math.Abs(item.GetHashCode()) % _hashArray.Length;
         }
 
         public void Add(T item)
         {
-            var index = getIndex(item);
+            var index = GetIndex(item);
 
             if (_hashArray[index] == null)
             {
@@ -106,9 +103,9 @@ namespace Task06_HashTable
 
         public bool Contains(T item)
         {
-            var index = getIndex(item);
+            var index = GetIndex(item);
 
-            if (_hashArray[index] != null && _hashArray[index].Count > 0)
+            if (_hashArray[index] != null)
             {
                 return _hashArray[index].Contains(item);
             }
@@ -136,20 +133,16 @@ namespace Task06_HashTable
             }
 
             int index = arrayIndex;
-            foreach (var list in _hashArray)
+            foreach (var element in this)
             {
-                if (list != null && list.Count > 0)
-                {
-                    list.CopyTo(array, index);
-                    index += list.Count;
-                }
+                array[index] = element;
+                index++;
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
             var initVersion = _version;
-            var initCount = Count;
 
             foreach (var list in _hashArray)
             {
@@ -170,9 +163,9 @@ namespace Task06_HashTable
 
         public bool Remove(T item)
         {
-            var index = getIndex(item);
+            var index = GetIndex(item);
 
-            if (_hashArray[index] != null && _hashArray[index].Count > 0)
+            if (_hashArray[index] != null)
             {
                 if (_hashArray[index].Remove(item))
                 {
@@ -208,7 +201,7 @@ namespace Task06_HashTable
                         }
                         else
                         {
-                            sb.Append(element.ToString());
+                            sb.Append(element);
                             sb.Append(", ");
                         }
                     }
