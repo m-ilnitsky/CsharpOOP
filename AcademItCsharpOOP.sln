@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task04_Lambda", "Task04_Lam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task05_ArrayList", "Task05_ArrayList\Task05_ArrayList.csproj", "{8AE0DD17-2096-452B-A5D6-760C900F9E85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task06_HashTable", "Task06_HashTable\Task06_HashTable.csproj", "{2F455CE9-A271-4A12-90B7-3D58BAA8FE8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8AE0DD17-2096-452B-A5D6-760C900F9E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AE0DD17-2096-452B-A5D6-760C900F9E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE0DD17-2096-452B-A5D6-760C900F9E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F455CE9-A271-4A12-90B7-3D58BAA8FE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F455CE9-A271-4A12-90B7-3D58BAA8FE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F455CE9-A271-4A12-90B7-3D58BAA8FE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F455CE9-A271-4A12-90B7-3D58BAA8FE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
