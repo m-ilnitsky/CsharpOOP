@@ -28,7 +28,7 @@ namespace Task05_ArrayList
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("list == null");
+                throw new ArgumentNullException("collection == null");
             }
 
             _elements = new T[collection.Count + 256];
@@ -257,6 +257,7 @@ namespace Task05_ArrayList
             StringBuilder sb = new StringBuilder();
 
             sb.Append("[");
+
             for (var i = 0; i < Count; i++)
             {
                 if (_elements[i] == null)
@@ -269,7 +270,12 @@ namespace Task05_ArrayList
                     sb.Append(", ");
                 }
             }
-            sb.Remove(sb.Length - 2, 2);
+
+            if (sb.Length > 2)
+            {
+                sb.Remove(sb.Length - 2, 2);
+            }
+           
             sb.Append("]");
 
             return sb.ToString();
