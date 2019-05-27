@@ -31,7 +31,7 @@ namespace Task05_ArrayList
                 throw new ArgumentNullException("list == null");
             }
 
-            _elements = new T[collection.Count];
+            _elements = new T[collection.Count + 256];
 
             collection.CopyTo(_elements, 0);
 
